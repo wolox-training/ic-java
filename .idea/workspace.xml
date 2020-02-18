@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="0263c611-7598-4a86-8b21-4c5a5716fc74" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="HTML File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1XzV7fhXnqkj87MdwzeJ8vMLwzW" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
+  </component>
+  <component name="RunManager" selected="Application.TrainingApplication">
+    <configuration name="TrainingApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="wolox.training.TrainingApplication" />
+      <module name="training.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="wolox.training.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tests in 'training.main'" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list />
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>false</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TrainingApplication" />
+        <item itemvalue="Gradle.Tests in 'training.main'" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0263c611-7598-4a86-8b21-4c5a5716fc74" name="Default Changelist" comment="" />
+      <created>1582048743184</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1582048743184</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1636" height="280" key="GridCell.Tab.0.bottom" timestamp="1583350350725">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1636" height="280" key="GridCell.Tab.0.bottom/0.23.1680.1027@0.23.1680.1027" timestamp="1583350350725" />
+    <state width="1636" height="280" key="GridCell.Tab.0.center" timestamp="1583350350724">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1636" height="280" key="GridCell.Tab.0.center/0.23.1680.1027@0.23.1680.1027" timestamp="1583350350724" />
+    <state width="1636" height="280" key="GridCell.Tab.0.left" timestamp="1583350350723">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1636" height="280" key="GridCell.Tab.0.left/0.23.1680.1027@0.23.1680.1027" timestamp="1583350350723" />
+    <state width="1636" height="280" key="GridCell.Tab.0.right" timestamp="1583350350725">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state width="1636" height="280" key="GridCell.Tab.0.right/0.23.1680.1027@0.23.1680.1027" timestamp="1583350350725" />
+    <state x="383" y="193" key="Registry" timestamp="1582056505220">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="383" y="193" key="Registry/0.23.1680.1027@0.23.1680.1027" timestamp="1582056505220" />
+    <state x="349" y="175" key="SettingsEditor" timestamp="1582056425553">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="349" y="175" key="SettingsEditor/0.23.1680.1027@0.23.1680.1027" timestamp="1582056425553" />
+    <state x="432" y="124" width="816" height="825" key="find.popup" timestamp="1583348331057">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="432" y="124" width="816" height="825" key="find.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1583348331057" />
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup" timestamp="1583347279746">
+      <screen x="0" y="23" width="1680" height="1027" />
+    </state>
+    <state x="505" y="250" width="670" height="676" key="search.everywhere.popup/0.23.1680.1027@0.23.1680.1027" timestamp="1583347279746" />
+  </component>
+</project>
