@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Book {
@@ -30,6 +31,8 @@ public class Book {
   @NotNull
   private String isbn;
 
+  @ManyToMany(mappedBy = "books")
+  private List<User> users = new ArrayList<User>();
 
   Book() {
   }
@@ -104,5 +107,20 @@ public class Book {
 
   public void setId(long id) {
     this.id = id;
+  }
+
+  public List<User> getUsers() {
+    return (List<User>) Collections.unmodifiableCollection(users);
+  }
+
+  public void setUsers(List<User> users) {
+    this.users = users;
+  }
+
+  public void addUser(User user){
+    this.users.add(user);
+  }
+  public void removeUser(User user){
+    this.users.remove(user);
   }
 }
