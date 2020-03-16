@@ -1,6 +1,7 @@
 package wolox.training.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -9,8 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
@@ -18,26 +17,22 @@ import wolox.training.exceptions.BookAlreadyOwnedException;
 @Entity
 @Table(name = "users")
 public class User {
-
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
   @Column(nullable = false)
   private String username;
+
   @Column(nullable = false)
   private String name;
+
   @Column(nullable = false)
   private LocalDate birthDate;
 
   @Column(nullable = false)
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "book_user",
-        joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id",
-            referencedColumnName = "id"))
-  private List<Book> books;
+  @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
+  private List<Book> books = new ArrayList<Book>();
 
   public User() {
   }
@@ -82,12 +77,14 @@ public class User {
     this.id = id;
   }
 
-  public void addBook(Book book){
-    if(this.books.contains(book))
+  public void addBook(Book book) {
+    if (this.books.contains(book)) {
       throw new BookAlreadyOwnedException("Can't add a book that's already owned");
+    }
     this.books.add(book);
   }
-  public void removeUser(Book book){
+
+  public void removeUser(Book book) {
     this.books.remove(book);
   }
 }
