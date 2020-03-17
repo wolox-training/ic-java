@@ -84,7 +84,7 @@ public class User {
     this.books.add(book);
   }
 
-  public void removeUser(Book book) {
+  public void removeBook(Book book) {
     this.books.remove(book);
   }
 }
