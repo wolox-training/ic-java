@@ -1,10 +1,15 @@
 package wolox.training.models;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import javax.persistence.ManyToMany;
+import wolox.training.exceptions.BookAlreadyOwnedException;
 
 @Entity
 public class Book {
@@ -15,21 +20,30 @@ public class Book {
 
   @NotNull
   private String author;
+
   @NotNull
   private String image;
+
   @NotNull
   private String title;
+
   @NotNull
   private String subtitle;
+
   @NotNull
   private String publisher;
+
   @NotNull
   private String year;
+
   @NotNull
   private int pages;
+
   @NotNull
   private String isbn;
 
+  @ManyToMany(mappedBy = "books")
+  private List<User> users = new ArrayList<User>();
 
   Book() {
   }
@@ -104,5 +118,22 @@ public class Book {
 
   public void setId(long id) {
     this.id = id;
+  }
+
+  public List<User> getUsers() {
+    return (List<User>) Collections.unmodifiableCollection(users);
+  }
+
+  public void setUsers(List<User> users) {
+    this.users = users;
+  }
+
+  public void addUser(User user){
+    if(this.users.contains(users))
+      throw new BookAlreadyOwnedException("Can't add a user that already owns that book");
+    this.users.add(user);
+  }
+  public void removeUser(User user){
+    this.users.remove(user);
   }
 }
