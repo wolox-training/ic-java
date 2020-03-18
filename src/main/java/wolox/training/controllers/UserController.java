@@ -54,8 +54,8 @@ public class UserController {
   @PutMapping("/{id}")
   public User updateUser(@NotNull @RequestBody User user,
       @PathVariable Long id) {
-    User userFromParams = findUserByIdFromParams(user, id);
-    return userRepository.save(userFromParams);
+    findUserByIdFromParams(user, id);
+    return userRepository.save(user);
   }
 
   @DeleteMapping("/{id}//books/{bookId}")
