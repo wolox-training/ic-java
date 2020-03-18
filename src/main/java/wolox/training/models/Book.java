@@ -1,5 +1,6 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,6 +54,7 @@ public class Book {
   }
 
   public void setImage(String image) {
+    Preconditions.checkNotNull(image);
     this.image = image;
   }
 
@@ -61,6 +63,7 @@ public class Book {
   }
 
   public void setAuthor(String author) {
+    Preconditions.checkNotNull(author);
     this.author = author;
   }
 
@@ -69,6 +72,7 @@ public class Book {
   }
 
   public void setTitle(String title) {
+    Preconditions.checkNotNull(title);
     this.title = title;
   }
 
@@ -77,6 +81,7 @@ public class Book {
   }
 
   public void setSubtitle(String subtitle) {
+    Preconditions.checkNotNull(subtitle);
     this.subtitle = subtitle;
   }
 
@@ -85,6 +90,7 @@ public class Book {
   }
 
   public void setPublisher(String publisher) {
+    Preconditions.checkNotNull(publisher);
     this.publisher = publisher;
   }
 
@@ -93,6 +99,7 @@ public class Book {
   }
 
   public void setYear(String year) {
+    Preconditions.checkNotNull(year);
     this.year = year;
   }
 
@@ -101,6 +108,7 @@ public class Book {
   }
 
   public void setPages(int pages) {
+    Preconditions.checkNotNull(pages);
     this.pages = pages;
   }
 
@@ -109,6 +117,7 @@ public class Book {
   }
 
   public void setIsbn(String isbn) {
+    Preconditions.checkNotNull(isbn);
     this.isbn = isbn;
   }
 
@@ -117,6 +126,7 @@ public class Book {
   }
 
   public void setId(long id) {
+    Preconditions.checkNotNull(id);
     this.id = id;
   }
 
@@ -125,15 +135,18 @@ public class Book {
   }
 
   public void setUsers(List<User> users) {
+    Preconditions.checkNotNull(users);
     this.users = users;
   }
 
-  public void addUser(User user){
-    if(this.users.contains(users))
+  public void addUser(User user) {
+    if (this.users.contains(users)) {
       throw new BookAlreadyOwnedException("Can't add a user that already owns that book");
+    }
     this.users.add(user);
   }
-  public void removeUser(User user){
+
+  public void removeUser(User user) {
     this.users.remove(user);
   }
 }
