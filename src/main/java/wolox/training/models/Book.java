@@ -1,6 +1,7 @@
 package wolox.training.models;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,7 +64,7 @@ public class Book {
   }
 
   public void setAuthor(String author) {
-    Preconditions.checkNotNull(author);
+    Preconditions.checkArgument(Strings.isNullOrEmpty(author));
     this.author = author;
   }
 
@@ -72,7 +73,7 @@ public class Book {
   }
 
   public void setTitle(String title) {
-    Preconditions.checkNotNull(title);
+    Preconditions.checkArgument(Strings.isNullOrEmpty(title));
     this.title = title;
   }
 
@@ -81,7 +82,7 @@ public class Book {
   }
 
   public void setSubtitle(String subtitle) {
-    Preconditions.checkNotNull(subtitle);
+    Preconditions.checkArgument(Strings.isNullOrEmpty(subtitle));
     this.subtitle = subtitle;
   }
 
@@ -90,7 +91,7 @@ public class Book {
   }
 
   public void setPublisher(String publisher) {
-    Preconditions.checkNotNull(publisher);
+    Preconditions.checkArgument(Strings.isNullOrEmpty(publisher));
     this.publisher = publisher;
   }
 
@@ -99,7 +100,7 @@ public class Book {
   }
 
   public void setYear(String year) {
-    Preconditions.checkNotNull(year);
+    Preconditions.checkArgument(Strings.isNullOrEmpty(year));
     this.year = year;
   }
 
@@ -109,6 +110,7 @@ public class Book {
 
   public void setPages(int pages) {
     Preconditions.checkNotNull(pages);
+    Preconditions.checkArgument(pages > 0);
     this.pages = pages;
   }
 
@@ -117,7 +119,7 @@ public class Book {
   }
 
   public void setIsbn(String isbn) {
-    Preconditions.checkNotNull(isbn);
+    Preconditions.checkArgument(Strings.isNullOrEmpty(isbn));
     this.isbn = isbn;
   }
 
