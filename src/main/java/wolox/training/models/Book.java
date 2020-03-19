@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -53,6 +55,7 @@ public class Book {
   }
 
   public void setImage(String image) {
+    Preconditions.checkNotNull(image);
     this.image = image;
   }
 
@@ -61,6 +64,7 @@ public class Book {
   }
 
   public void setAuthor(String author) {
+    Preconditions.checkArgument(Strings.isNullOrEmpty(author));
     this.author = author;
   }
 
@@ -69,6 +73,7 @@ public class Book {
   }
 
   public void setTitle(String title) {
+    Preconditions.checkArgument(Strings.isNullOrEmpty(title));
     this.title = title;
   }
 
@@ -77,6 +82,7 @@ public class Book {
   }
 
   public void setSubtitle(String subtitle) {
+    Preconditions.checkArgument(Strings.isNullOrEmpty(subtitle));
     this.subtitle = subtitle;
   }
 
@@ -85,6 +91,7 @@ public class Book {
   }
 
   public void setPublisher(String publisher) {
+    Preconditions.checkArgument(Strings.isNullOrEmpty(publisher));
     this.publisher = publisher;
   }
 
@@ -93,6 +100,7 @@ public class Book {
   }
 
   public void setYear(String year) {
+    Preconditions.checkArgument(Strings.isNullOrEmpty(year));
     this.year = year;
   }
 
@@ -101,6 +109,8 @@ public class Book {
   }
 
   public void setPages(int pages) {
+    Preconditions.checkNotNull(pages);
+    Preconditions.checkArgument(pages > 0);
     this.pages = pages;
   }
 
@@ -109,6 +119,7 @@ public class Book {
   }
 
   public void setIsbn(String isbn) {
+    Preconditions.checkArgument(Strings.isNullOrEmpty(isbn));
     this.isbn = isbn;
   }
 
@@ -117,6 +128,7 @@ public class Book {
   }
 
   public void setId(long id) {
+    Preconditions.checkNotNull(id);
     this.id = id;
   }
 
@@ -125,15 +137,18 @@ public class Book {
   }
 
   public void setUsers(List<User> users) {
+    Preconditions.checkNotNull(users);
     this.users = users;
   }
 
-  public void addUser(User user){
-    if(this.users.contains(users))
+  public void addUser(User user) {
+    if (this.users.contains(users)) {
       throw new BookAlreadyOwnedException("Can't add a user that already owns that book");
+    }
     this.users.add(user);
   }
-  public void removeUser(User user){
+
+  public void removeUser(User user) {
     this.users.remove(user);
   }
 }

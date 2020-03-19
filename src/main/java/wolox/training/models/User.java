@@ -1,5 +1,7 @@
 package wolox.training.models;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,6 +19,7 @@ import wolox.training.exceptions.BookAlreadyOwnedException;
 @Entity
 @Table(name = "users")
 public class User {
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
@@ -42,6 +45,7 @@ public class User {
   }
 
   public void setUsername(String username) {
+    Preconditions.checkArgument(Strings.isNullOrEmpty(username));
     this.username = username;
   }
 
@@ -50,6 +54,7 @@ public class User {
   }
 
   public void setName(String name) {
+    Preconditions.checkArgument(Strings.isNullOrEmpty(name));
     this.name = name;
   }
 
@@ -58,6 +63,8 @@ public class User {
   }
 
   public void setBirthDate(LocalDate birthDate) {
+    Preconditions.checkArgument(birthDate.isBefore(LocalDate.now()));
+    Preconditions.checkNotNull(birthDate);
     this.birthDate = birthDate;
   }
 
@@ -66,6 +73,7 @@ public class User {
   }
 
   public void setBooks(List<Book> books) {
+    Preconditions.checkNotNull(books);
     this.books = books;
   }
 
@@ -74,6 +82,7 @@ public class User {
   }
 
   public void setId(long id) {
+    Preconditions.checkNotNull(id);
     this.id = id;
   }
 
@@ -84,7 +93,7 @@ public class User {
     this.books.add(book);
   }
 
-  public void removeUser(Book book) {
+  public void removeBook(Book book) {
     this.books.remove(book);
   }
 }

@@ -7,4 +7,5 @@ import wolox.training.models.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
   User findByUsername(String username);
+  User findById(int id);
 }
