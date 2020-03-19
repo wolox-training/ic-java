@@ -6,6 +6,8 @@ import wolox.training.models.Book;
 
 @Repository
 public interface BookRepository extends CrudRepository<Book, Long> {
+
   Book findByAuthor(String author);
+
   Book findById(int id);
 }
