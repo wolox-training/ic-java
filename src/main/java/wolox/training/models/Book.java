@@ -59,7 +59,7 @@ public class Book {
   @ApiModelProperty(notes = "Users that have rented this book ")
   private List<User> users = new ArrayList<User>();
 
-  Book() {
+  public Book() {
   }
 
   public String getImage() {
