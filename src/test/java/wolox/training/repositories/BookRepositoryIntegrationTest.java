@@ -7,14 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
-import wolox.training.exceptions.BookNotFoundException;
 import wolox.training.models.Book;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class BookRepositoryIntegrationTest {
 
   @Autowired
@@ -28,6 +30,13 @@ public class BookRepositoryIntegrationTest {
   @Before
   public void setUp() {
     book.setAuthor("Author");
+    book.setImage("La imagen");
+    book.setIsbn("ISBN");
+    book.setPages(250);
+    book.setPublisher("El publisher");
+    book.setSubtitle("El subtítulo");
+    book.setTitle("El título");
+    book.setYear("1989");
     entityManager.persist(book);
     entityManager.flush();
   }
@@ -44,8 +53,8 @@ public class BookRepositoryIntegrationTest {
     assertThat(found.getId()).isEqualTo(book.getId());
   }
 
-  @Test(expected = BookNotFoundException.class)
-  public void whenFindByWrongAuthor_thenExceptionIsThrown() {
-    bookRepository.findByAuthor(book.getAuthor().concat("asdf"));
+  @Test
+  public void whenFindByWrongAuthor_thenNothingIsReturned() {
+    assertThat(bookRepository.findByAuthor(book.getAuthor().concat("asdf"))).isNull();
   }
 }

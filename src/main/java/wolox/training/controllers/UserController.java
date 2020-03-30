@@ -12,13 +12,15 @@ import wolox.training.exceptions.UserIdMismatchException;
 import wolox.training.exceptions.UserNotFoundException;
 import wolox.training.models.Book;
 import wolox.training.models.User;
+import wolox.training.repositories.BookRepository;
 import wolox.training.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
 @Api
 public class UserController {
-
+  @Autowired
+  private BookRepository bookRepository;
   @Autowired
   private UserRepository userRepository;
 
@@ -60,10 +62,11 @@ public class UserController {
       @ApiResponse(code = 200, message = "Deleted user"),
       @ApiResponse(code = 404, message = "User with that ID doesn't exist"),
   })
-  public void delete(@PathVariable Long id) {
-    userRepository.findById(id).orElseThrow(
+  public User delete(@PathVariable Long id) {
+    User user = userRepository.findById(id).orElseThrow(
         () -> new UserNotFoundException("User not found when deleting"));
     userRepository.deleteById(id);
+    return user;
   }
 
   @PutMapping("/{id}")
@@ -84,9 +87,14 @@ public class UserController {
       @ApiResponse(code = 200, message = "Removed book from user's list"),
       @ApiResponse(code = 404, message = "User with that ID doesn't exist"),
   })
-  public User removeBook(@NotNull @RequestBody User user, @NotNull @RequestBody Book book,
-      @PathVariable Long id, @PathVariable Long bookId) {
-    User userFromParams = findUserByIdFromParams(user, id);
+  public User removeBook(@PathVariable Long id, @PathVariable Long bookId) {
+    User userFromParams = userRepository.findById(id).orElseThrow(
+        () -> new UserNotFoundException("User not found, can't add book")
+    );
+
+    Book book = bookRepository.findById(bookId).orElseThrow(
+        () -> new UserNotFoundException("User not found, can't add book")
+    );
     userFromParams.removeBook(book);
     return userRepository.save(userFromParams);
   }
@@ -97,9 +105,10 @@ public class UserController {
       @ApiResponse(code = 200, message = "Added book to user's list"),
       @ApiResponse(code = 404, message = "User with that ID doesn't exist"),
   })
-  public User addBook(@NotNull @RequestBody User user, @NotNull @RequestBody Book book,
-      @PathVariable Long id) {
-    User userFromParams = findUserByIdFromParams(user, id);
+  public User addBook(@NotNull @RequestBody Book book, @PathVariable Long id) {
+    User userFromParams = userRepository.findById(id).orElseThrow(
+        () -> new UserNotFoundException("User not found, can't add book")
+    );
     userFromParams.addBook(book);
     return userRepository.save(userFromParams);
   }

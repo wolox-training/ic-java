@@ -68,10 +68,11 @@ public class BookController {
       @ApiResponse(code = 200, message = "Deleted book"),
       @ApiResponse(code = 404, message = "Book with that ID doesn't exist")
   })
-  public void delete(@PathVariable Long id) {
-    bookRepository.findById(id).orElseThrow(
+  public Book delete(@PathVariable Long id) {
+   Book book = bookRepository.findById(id).orElseThrow(
         () -> new BookNotFoundException("Book not found when deleting"));
     bookRepository.deleteById(id);
+    return book;
   }
 
   @PutMapping("/{id}")

@@ -3,18 +3,21 @@ package wolox.training.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
-import wolox.training.exceptions.UserNotFoundException;
 import wolox.training.models.User;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = Replace.NONE)
 public class UserRepositoryIntegrationTest {
 
   @Autowired
@@ -28,6 +31,8 @@ public class UserRepositoryIntegrationTest {
   @Before
   public void setUp() {
     user.setUsername("Username");
+    user.setBirthDate(LocalDate.now().minusDays(2));
+    user.setName("El Nombre");
     entityManager.persist(user);
     entityManager.flush();
   }
@@ -44,8 +49,8 @@ public class UserRepositoryIntegrationTest {
     assertThat(found.getId()).isEqualTo(user.getId());
   }
 
-  @Test(expected = UserNotFoundException.class)
-  public void whenFindByWrongUsername_thenExceptionIsThrown() {
-    userRepository.findByUsername(user.getUsername().concat("asdf"));
+  @Test
+  public void whenFindByWrongAuthor_thenNothingIsReturned() {
+    assertThat(userRepository.findByUsername(user.getUsername().concat("asdf"))).isNull();
   }
 }

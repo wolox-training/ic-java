@@ -67,7 +67,7 @@ public class Book {
   }
 
   public void setImage(String image) {
-    Preconditions.checkNotNull(image);
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(image));
     this.image = image;
   }
 
@@ -76,7 +76,7 @@ public class Book {
   }
 
   public void setAuthor(String author) {
-    Preconditions.checkArgument(Strings.isNullOrEmpty(author));
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(author));
     this.author = author;
   }
 
@@ -85,7 +85,7 @@ public class Book {
   }
 
   public void setTitle(String title) {
-    Preconditions.checkArgument(Strings.isNullOrEmpty(title));
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(title));
     this.title = title;
   }
 
@@ -94,7 +94,7 @@ public class Book {
   }
 
   public void setSubtitle(String subtitle) {
-    Preconditions.checkArgument(Strings.isNullOrEmpty(subtitle));
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(subtitle));
     this.subtitle = subtitle;
   }
 
@@ -103,7 +103,7 @@ public class Book {
   }
 
   public void setPublisher(String publisher) {
-    Preconditions.checkArgument(Strings.isNullOrEmpty(publisher));
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(publisher));
     this.publisher = publisher;
   }
 
@@ -112,7 +112,7 @@ public class Book {
   }
 
   public void setYear(String year) {
-    Preconditions.checkArgument(Strings.isNullOrEmpty(year));
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(year));
     this.year = year;
   }
 
@@ -131,7 +131,7 @@ public class Book {
   }
 
   public void setIsbn(String isbn) {
-    Preconditions.checkArgument(Strings.isNullOrEmpty(isbn));
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(isbn));
     this.isbn = isbn;
   }
 
@@ -145,7 +145,7 @@ public class Book {
   }
 
   public List<User> getUsers() {
-    return (List<User>) Collections.unmodifiableCollection(users);
+    return (List<User>) Collections.unmodifiableList(users);
   }
 
   public void setUsers(List<User> users) {

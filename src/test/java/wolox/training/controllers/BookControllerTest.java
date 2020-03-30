@@ -1,58 +1,94 @@
 package wolox.training.controllers;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.ArgumentMatchers.any;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.mockito.configuration.IMockitoConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import wolox.training.exceptions.BookNotFoundException;
+import org.springframework.test.context.junit4.SpringRunner;
 import wolox.training.models.Book;
-import wolox.training.models.User;
 import wolox.training.repositories.BookRepository;
 
-public class BookControllerTest {
 
-  @Autowired
-  private MockMvc mockMvc;
+@RunWith(SpringRunner.class)
+@AutoConfigureMockMvc
+@WebMvcTest(BookController.class)
+@AutoConfigureTestDatabase(replace = Replace.NONE)
+public class BookControllerTest extends BaseControllerTest {
 
   @MockBean
   private BookRepository mockBookRepository;
-  private Book book;
+  private Book book = new Book();
+  private String bookAsJson = "{\"id\":1,\"author\":\"Author\",\"image\":\"La imagen\",\"title\":\"El título\",\"subtitle\":\"El subtítulo\",\"publisher\":\"El publisher\",\"year\":\"1989\",\"pages\":250,\"isbn\":\"ISBN\",\"users\":[]}";
 
   @Before
   public void setUp() {
-    book = new Book();
     book.setAuthor("Author");
+    book.setImage("La imagen");
+    book.setIsbn("ISBN");
+    book.setPages(250);
+    book.setPublisher("El publisher");
+    book.setSubtitle("El subtítulo");
+    book.setTitle("El título");
+    book.setYear("1989");
+    book.setId(1L);
   }
 
   @Test
   public void whenFindById_thenReturnBook() throws Exception {
-    Mockito.when(mockBookRepository.findById(1L)).thenReturn(java.util.Optional.ofNullable(book));
-    getAndExpect("/api/books/1", status().isOk(), "asdf");
+    Mockito.when(mockBookRepository.findById(book.getId()))
+        .thenReturn(java.util.Optional.ofNullable(book));
+    getAndExpect("/api/books/" + book.getId(), status().isOk(), bookAsJson);
   }
+
   @Test
   public void whenFindAll_thenReturnBooks() throws Exception {
     Mockito.when(mockBookRepository.findAll()).thenReturn(Arrays.asList(book));
-    getAndExpect("/api/books", status().isOk(), "asdf");
+    getAndExpect("/api/books", status().isOk(), "[" + bookAsJson + "]");
   }
 
-  public void getAndExpect(String url, ResultMatcher status, String content) throws Exception {
-    mockMvc.perform(get(url)
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status)
-        .andExpect(content().json(content));
+  @Test
+  public void whenDeletingABook_thenReturnDeletedBook() throws Exception {
+    Mockito.when(mockBookRepository.findById(book.getId()))
+        .thenReturn(java.util.Optional.ofNullable(book));
+    deleteAndExpect("/api/books/" + book.getId(), status().isOk(), bookAsJson);
+  }
+
+
+  @Test
+  public void whenDeletingABook_thenCallTheDeleteMethod() throws Exception {
+    Mockito.when(mockBookRepository.findById(book.getId()))
+        .thenReturn(java.util.Optional.ofNullable(book));
+    deleteWithStatus("/api/books/" + book.getId(), status().isOk());
+    verify(mockBookRepository, times(1)).deleteById(book.getId());
+
+  }
+
+  @Test
+  public void whenCreatingABook_thenCallTheSaveMethod() throws Exception {
+    Mockito.when(mockBookRepository.save(book)).thenReturn(book);
+    postWithStatus("/api/books/", bookAsJson, status().isCreated());
+    verify(mockBookRepository, times(1)).save(any(Book.class));
+
+  }
+
+  @Test
+  public void whenUpdatingABook_thenCallTheSaveMethod() throws Exception {
+    Mockito.when(mockBookRepository.findById(book.getId()))
+        .thenReturn(java.util.Optional.ofNullable(book));
+    Mockito.when(mockBookRepository.save(book)).thenReturn(book);
+    putWithStatus("/api/books/" + book.getId(), bookAsJson, status().isOk());
+    verify(mockBookRepository, times(1)).save(any(Book.class));
   }
 
 }

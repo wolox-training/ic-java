@@ -17,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import wolox.training.exceptions.BookAlreadyOwnedException;
+import wolox.training.exceptions.BookNotFoundException;
 
 @Entity
 @Table(name = "users")
@@ -52,7 +53,7 @@ public class User {
   }
 
   public void setUsername(String username) {
-    Preconditions.checkArgument(Strings.isNullOrEmpty(username));
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(username));
     this.username = username;
   }
 
@@ -61,7 +62,7 @@ public class User {
   }
 
   public void setName(String name) {
-    Preconditions.checkArgument(Strings.isNullOrEmpty(name));
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
     this.name = name;
   }
 
@@ -70,13 +71,13 @@ public class User {
   }
 
   public void setBirthDate(LocalDate birthDate) {
-    Preconditions.checkArgument(birthDate.isBefore(LocalDate.now()));
     Preconditions.checkNotNull(birthDate);
+    Preconditions.checkArgument(birthDate.isBefore(LocalDate.now()));
     this.birthDate = birthDate;
   }
 
   public List<Book> getBooks() {
-    return (List<Book>) Collections.unmodifiableCollection(books);
+    return (List<Book>) Collections.unmodifiableList(books);
   }
 
   public void setBooks(List<Book> books) {
@@ -101,6 +102,9 @@ public class User {
   }
 
   public void removeBook(Book book) {
+    if (!this.books.contains(book)) {
+      throw new BookNotFoundException("Can't remove a book that's not owned");
+    }
     this.books.remove(book);
   }
 }
