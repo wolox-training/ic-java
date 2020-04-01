@@ -2,6 +2,8 @@ package wolox.training.models;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +20,7 @@ import wolox.training.exceptions.BookAlreadyOwnedException;
 
 @Entity
 @Table(name = "users")
+@ApiModel(description = "Users of the site")
 public class User {
 
   @Id
@@ -25,15 +28,19 @@ public class User {
   private long id;
 
   @Column(nullable = false)
+  @ApiModelProperty(notes = "Handle of the user")
   private String username;
 
   @Column(nullable = false)
+  @ApiModelProperty(notes = "Real name of the user")
   private String name;
 
   @Column(nullable = false)
+  @ApiModelProperty(notes = "Birth date of the user")
   private LocalDate birthDate;
 
   @Column(nullable = false)
+  @ApiModelProperty(notes = "Books the user rented")
   @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
   private List<Book> books = new ArrayList<Book>();
 
