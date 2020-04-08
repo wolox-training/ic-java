@@ -33,6 +33,7 @@ public class UserRepositoryIntegrationTest {
     user.setUsername("Username");
     user.setBirthDate(LocalDate.now().minusDays(2));
     user.setName("El Nombre");
+    user.setPassword("password");
     entityManager.persist(user);
     entityManager.flush();
   }

@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import wolox.training.models.Book;
 import wolox.training.models.User;
@@ -38,12 +39,40 @@ public class UserControllerTest extends BaseControllerTest {
 
   private User user = new User();
   private Book book = new Book();
-  private String userAsJson = "{\"id\":1,\"username\":\"Username\",\"name\":\"El Nombre\",\"birthDate\":\"2020-04-04\",\"books\":[{\"id\":0,\"author\":null,\"image\":null,\"title\":null,\"subtitle\":null,\"publisher\":null,\"year\":null,\"pages\":0,\"isbn\":null,\"users\":[]}]}";
-  private String userAsJsonWithoutBooks = "{\"id\":1,\"username\":\"Username\",\"name\":\"El Nombre\",\"birthDate\":\"2020-04-04\"}";
-  private String bookAsJson = "{\"id\":1,\"author\":\"Author\",\"image\":\"La imagen\",\"title\":\"El título\",\"subtitle\":\"El subtítulo\",\"publisher\":\"El publisher\",\"year\":\"1989\",\"pages\":250,\"isbn\":\"ISBN\"}";
+  private String userAsJson = "{\"id\":1,"
+      + "\"username\":\"Username\","
+      + "\"name\":\"El Nombre\","
+      + "\"birthDate\":\"2020-04-04\","
+      + "\"books\":[{\"id\":0,"
+      + "\"author\":null,"
+      + "\"image\":null,"
+      + "\"title\":null,"
+      + "\"subtitle\":null,"
+      + "\"publisher\":null,"
+      + "\"year\":null,"
+      + "\"pages\":0,"
+      + "\"isbn\":null,"
+      + "\"users\":[]}]}";
+  private String userAsJsonWithoutBooks = "{\"id\":1,"
+      + "\"username\":\"Username\","
+      + "\"name\":\"El Nombre\","
+      + "\"password\":\"password\","
+      + "\"birthDate\":\"2020-04-04\""
+      + "}";
+  private String bookAsJson = "{\"id\":1,"
+      + "\"author\":\"Author\","
+      + "\"image\":\"La imagen\","
+      + "\"title\":\"El título\","
+      + "\"subtitle\":\"El subtítulo\","
+      + "\"publisher\":\"El publisher\","
+      + "\"year\":\"1989\","
+      + "\"pages\":250,"
+      + "\"isbn\":\"ISBN\""
+      + "}";
 
   @Before
   public void setUp() {
+    buildMvc();
     user.setUsername("Username");
     user.setBirthDate(LocalDate.parse("2020-04-04"));
     user.setName("El Nombre");
@@ -52,6 +81,7 @@ public class UserControllerTest extends BaseControllerTest {
   }
 
   @Test
+  @WithMockUser(username="spring", password="password")
   public void whenFindById_thenReturnUser() throws Exception {
     Mockito.when(mockUserRepository.findById(user.getId()))
         .thenReturn(java.util.Optional.ofNullable(user));
@@ -59,12 +89,14 @@ public class UserControllerTest extends BaseControllerTest {
   }
 
   @Test
+  @WithMockUser(username="spring", password="password")
   public void whenFindAll_thenReturnUsers() throws Exception {
     Mockito.when(mockUserRepository.findAll()).thenReturn(Arrays.asList(user));
     getAndExpect("/api/users", status().isOk(), "[" + userAsJson + "]");
   }
 
   @Test
+  @WithMockUser(username="spring", password="password")
   public void whenDeletingAUser_thenReturnDeletedUser() throws Exception {
     Mockito.when(mockUserRepository.findById(user.getId()))
         .thenReturn(java.util.Optional.ofNullable(user));
@@ -73,11 +105,13 @@ public class UserControllerTest extends BaseControllerTest {
 
 
   @Test
+  @WithMockUser(username="spring", password="password")
   public void whenDeletingAUserThatDoesntExist_thenFail() throws Exception {
     deleteWithStatus("/api/users/500", status().isNotFound());
   }
 
   @Test
+  @WithMockUser(username="spring", password="password")
   public void whenDeletingAUser_thenCallTheDeleteMethod() throws Exception {
     Mockito.when(mockUserRepository.findById(user.getId()))
         .thenReturn(java.util.Optional.ofNullable(user));
@@ -95,6 +129,7 @@ public class UserControllerTest extends BaseControllerTest {
   }
 
   @Test
+  @WithMockUser(username="spring", password="password")
   public void whenUpdatingAUser_thenCallTheSaveMethod() throws Exception {
     Mockito.when(mockUserRepository.findById(user.getId()))
         .thenReturn(java.util.Optional.ofNullable(user));
@@ -105,6 +140,7 @@ public class UserControllerTest extends BaseControllerTest {
 
 
   @Test
+  @WithMockUser(username="spring", password="password")
   public void whenAddingABookToTheUser_thenCallTheSaveMethod() throws Exception {
     Mockito.when(mockUserRepository.findById(user.getId()))
         .thenReturn(java.util.Optional.ofNullable(user));
@@ -114,6 +150,7 @@ public class UserControllerTest extends BaseControllerTest {
   }
 
   @Test
+  @WithMockUser(username="spring", password="password")
   public void whenDeletingABookFromTheUser_thenCallTheSaveMethod() throws Exception {
     Mockito.when(mockUserRepository.findById(user.getId()))
         .thenReturn(java.util.Optional.ofNullable(user));
@@ -126,6 +163,7 @@ public class UserControllerTest extends BaseControllerTest {
   }
 
   @Test
+  @WithMockUser(username="spring", password="password")
   public void whenDeletingABookFromTheUserButItDoesntExist_throwError() throws Exception {
     user.setBooks(new ArrayList<>());
     Mockito.when(mockUserRepository.findById(user.getId()))

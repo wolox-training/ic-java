@@ -36,6 +36,11 @@ public class User {
   @ApiModelProperty(notes = "Real name of the user")
   private String name;
 
+
+  @Column(nullable = false)
+  @ApiModelProperty(notes = "Encrypted password of the user")
+  private String password;
+
   @Column(nullable = false)
   @ApiModelProperty(notes = "Birth date of the user")
   private LocalDate birthDate;
@@ -106,5 +111,14 @@ public class User {
       throw new BookNotFoundException("Can't remove a book that's not owned");
     }
     this.books.remove(book);
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    Preconditions.checkArgument(!Strings.isNullOrEmpty(name));
+    this.password = password;
   }
 }

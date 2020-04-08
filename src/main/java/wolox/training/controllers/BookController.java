@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wolox.training.exceptions.BookIdMismatchException;
 import wolox.training.exceptions.BookNotFoundException;
@@ -17,6 +18,7 @@ import wolox.training.repositories.BookRepository;
 
 @RestController
 @RequestMapping("/api/books")
+@Validated
 @Api
 public class BookController {
 

@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import wolox.training.models.Book;
 import wolox.training.repositories.BookRepository;
@@ -29,10 +30,20 @@ public class BookControllerTest extends BaseControllerTest {
   @MockBean
   private BookRepository mockBookRepository;
   private Book book = new Book();
-  private String bookAsJson = "{\"id\":1,\"author\":\"Author\",\"image\":\"La imagen\",\"title\":\"El título\",\"subtitle\":\"El subtítulo\",\"publisher\":\"El publisher\",\"year\":\"1989\",\"pages\":250,\"isbn\":\"ISBN\",\"users\":[]}";
+  private String bookAsJson = "{\"id\":1,"
+      + "\"author\":\"Author\","
+      + "\"image\":\"La imagen\","
+      + "\"title\":\"El título\","
+      + "\"subtitle\":\"El subtítulo\","
+      + "\"publisher\":\"El publisher\","
+      + "\"year\":\"1989\","
+      + "\"pages\":250,"
+      + "\"isbn\":\"ISBN\","
+      + "\"users\":[]}";
 
   @Before
   public void setUp() {
+    buildMvc();
     book.setAuthor("Author");
     book.setImage("La imagen");
     book.setIsbn("ISBN");
@@ -44,6 +55,7 @@ public class BookControllerTest extends BaseControllerTest {
     book.setId(1L);
   }
 
+  @WithMockUser(username="spring", password="password")
   @Test
   public void whenFindById_thenReturnBook() throws Exception {
     Mockito.when(mockBookRepository.findById(book.getId()))
@@ -51,12 +63,14 @@ public class BookControllerTest extends BaseControllerTest {
     getAndExpect("/api/books/" + book.getId(), status().isOk(), bookAsJson);
   }
 
+  @WithMockUser(username="spring", password="password")
   @Test
   public void whenFindAll_thenReturnBooks() throws Exception {
     Mockito.when(mockBookRepository.findAll()).thenReturn(Arrays.asList(book));
     getAndExpect("/api/books", status().isOk(), "[" + bookAsJson + "]");
   }
 
+  @WithMockUser(username="spring", password="password")
   @Test
   public void whenDeletingABook_thenReturnDeletedBook() throws Exception {
     Mockito.when(mockBookRepository.findById(book.getId()))
@@ -64,7 +78,7 @@ public class BookControllerTest extends BaseControllerTest {
     deleteAndExpect("/api/books/" + book.getId(), status().isOk(), bookAsJson);
   }
 
-
+  @WithMockUser(username="spring", password="password")
   @Test
   public void whenDeletingABook_thenCallTheDeleteMethod() throws Exception {
     Mockito.when(mockBookRepository.findById(book.getId()))
@@ -82,6 +96,7 @@ public class BookControllerTest extends BaseControllerTest {
 
   }
 
+  @WithMockUser(username="spring", password="password")
   @Test
   public void whenUpdatingABook_thenCallTheSaveMethod() throws Exception {
     Mockito.when(mockBookRepository.findById(book.getId()))

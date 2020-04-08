@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiResponses;
 import javax.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import wolox.training.exceptions.UserIdMismatchException;
 import wolox.training.exceptions.UserNotFoundException;
@@ -17,12 +19,15 @@ import wolox.training.repositories.UserRepository;
 
 @RestController
 @RequestMapping("/api/users")
+@Validated
 @Api
 public class UserController {
   @Autowired
   private BookRepository bookRepository;
   @Autowired
   private UserRepository userRepository;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   @GetMapping
   @ApiOperation(value = "Find all Users")
@@ -53,6 +58,7 @@ public class UserController {
       @ApiResponse(code = 404, message = "User with that ID doesn't exist"),
   })
   public User create(@RequestBody User user) {
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
 
@@ -78,6 +84,20 @@ public class UserController {
   public User updateUser(@NotNull @RequestBody User user,
       @PathVariable Long id) {
     findUserByIdFromParams(user, id);
+    //Remove password here
+    return userRepository.save(user);
+  }
+
+  @PutMapping("/{id}/password")
+  @ApiOperation(value = "Updates a user's password")
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "Updated user password"),
+      @ApiResponse(code = 404, message = "User with that ID doesn't exist"),
+  })
+  public User updateUserPassword(@NotNull @RequestBody String password, @PathVariable Long id) {
+    User user = userRepository.findById(id)
+        .orElseThrow(() -> new UserNotFoundException("User not found"));
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
 
