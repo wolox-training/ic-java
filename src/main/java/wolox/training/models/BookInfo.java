@@ -41,6 +41,16 @@ public class BookInfo {
     this.setPublishDate(publishDate);
   }
 
+  static public BookInfo fromBook(Book book) {
+    List<String> authors = new ArrayList<String>();
+    authors.add(book.getAuthor());
+    List<String> publishers = new ArrayList<String>();
+    authors.add(book.getPublisher());
+    LocalDate publishDate = LocalDate.of(Integer.parseInt(book.getYear()), 1, 1);
+
+    return new BookInfo(book.getIsbn(), book.getTitle(), book.getSubtitle(), authors, publishers, book.getPages(), publishDate);
+  }
+
   public LocalDate getPublishDate() {
     return publishDate;
   }

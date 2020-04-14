@@ -45,7 +45,6 @@ public class User {
   @ApiModelProperty(notes = "Birth date of the user")
   private LocalDate birthDate;
 
-  @Column(nullable = false)
   @ApiModelProperty(notes = "Books the user rented")
   @ManyToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
   private List<Book> books = new ArrayList<Book>();

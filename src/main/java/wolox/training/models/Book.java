@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,6 +62,25 @@ public class Book {
 
   public Book() {
   }
+
+  public Book(String isbn, String title, String subtitle, String author,
+      String publisher, int pages, String year) {
+    this.setAuthor(author);
+    this.setImage("www.google.com");
+    this.setTitle(title);
+    this.setSubtitle(subtitle);
+    this.setPublisher(publisher);
+    this.setYear(year);
+    this.setPages(pages);
+    this.setIsbn(isbn);
+  }
+
+  static public Book fromBookInfo(BookInfo bookInfo) {
+    return new Book(bookInfo.getIsbn(), bookInfo.getTitle(), bookInfo.getSubtitle(),
+        bookInfo.getAuthors().get(0), bookInfo.getPublishers().get(0),
+        bookInfo.getNumberOfPages(), Integer.toString(bookInfo.getPublishDate().getYear()));
+  }
+
 
   public String getImage() {
     return image;
